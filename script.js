@@ -45,88 +45,80 @@ calc.addEventListener("click", (event) => {
       display.textContent += ".";
       };
       break;
+
     case "plus":
+      operator = "plus";
       if(firstNum === 0) {
         firstNum = +display.textContent;
-      }
-      if(firstNum !== 0 && operator === "") {
-        operator = "plus";
-        notifs.textContent = `adding to ${firstNum}`;
         display.textContent = "";
-        break;
-      };
-      if(firstNum !== 0 && operator !== "") {
-        secondNum = +display.textContent;
-        notifs.textContent = `${firstNum} + ${secondNum} = ${add(firstNum, secondNum)}`;
-        firstNum = add(firstNum, secondNum);
+        notifs.textContent = `${firstNum} +`;
       }
-      display.textContent = "";
+      else if(firstNum !==0) {
+        secondNum = +display.textContent;
+        display.textContent = "";
+        notifs.textContent = `${firstNum} + ${secondNum} = ${operate(operator, firstNum, secondNum)}`;
+        firstNum = operate(operator, firstNum, secondNum);
+        secondNum = 0;
+        operator = ""
+      }
       break;
+
     case "minus":
+      operator = "minus";
       if(firstNum === 0) {
         firstNum = +display.textContent;
-      }
-      if(firstNum !== 0 && operator === "") {
-        operator = "minus";
-        notifs.textContent = `subracting from ${firstNum}`;
         display.textContent = "";
-        break;
-      };
-      if(firstNum !== 0 && operator !== "") {
-        secondNum = +display.textContent;
-        notifs.textContent = `${firstNum} - ${secondNum} = ${subtract(firstNum, secondNum)}`;
-        firstNum = subtract(firstNum, secondNum);
       }
-      display.textContent = "";
-      
+      else if(firstNum !==0) {
+        secondNum = +display.textContent;
+        display.textContent = "";
+        notifs.textContent = `${firstNum} - ${secondNum} = ${operate(operator, firstNum, secondNum)}`;
+        firstNum = operate(operator, firstNum, secondNum);
+        secondNum = 0;
+        operator = ""
+      }
       break;
+
     case "multi":
+      operator = "multi";
       if(firstNum === 0) {
         firstNum = +display.textContent;
+        display.textContent = "";
       }
-      if(firstNum !== 0 && operator === "") {
-        operator = "multi";
-      };
-      display.textContent = "";
-      notifs.textContent = `multiplying ${firstNum}`;
-      break;
-    case "divide":
-      if(firstNum === 0) {
-        firstNum = +display.textContent;
-      }
-      if(firstNum !== 0 && operator === "") {
-        operator = "divide";
-      };
-      display.textContent = "";
-      notifs.textContent = `dividing ${firstNum}`;
-      break;
-    case "equals":
-      if(firstNum !== 0 && operator !== "") {
+      else if(firstNum !==0) {
         secondNum = +display.textContent;
-        if(operator === "plus") {
-          notifs.textContent = `${firstNum} + ${secondNum} = ${add(firstNum, secondNum).toFixed(2)}`;
-          display.textContent = "";
-        }
-        else if(operator === "minus") {
-          notifs.textContent = `${firstNum} - ${secondNum} = ${subtract(firstNum, secondNum).toFixed(2)}`;
-          display.textContent = "";
-        }
-        else if(operator === "multi") {
-          notifs.textContent = `${firstNum} * ${secondNum} = ${multiply(firstNum, secondNum).toFixed(2)}`;
-          display.textContent = "";
-        }
-        else if(operator === "divide") {
-          if(secondNum === 0) {
-            notifs.textContent = "No.";
-            break;
-          }
-          notifs.textContent = `${firstNum} : ${secondNum} = ${divide(firstNum, secondNum).toFixed(2)}`;
-          display.textContent = "";
+        display.textContent = "";
+        notifs.textContent = `${firstNum} * ${secondNum} = ${operate(operator, firstNum, secondNum)}`;
+        firstNum = operate(operator, firstNum, secondNum);
+        secondNum = 0;
+        operator = ""
+      }
+      break;
+
+    case "divide":
+      operator = "divide";
+      if(firstNum === 0) {
+        firstNum = +display.textContent;
+        display.textContent = "";
+      }
+      else if(firstNum !==0) {
+        secondNum = +display.textContent;
+        display.textContent = "";
+        notifs.textContent = `${firstNum} : ${secondNum} = ${operate(operator, firstNum, secondNum)}`;
+        firstNum = operate(operator, firstNum, secondNum);
+        secondNum = 0;
+        operator = ""
+      }
+      break;
+
+    case "equals":
+      if(firstNum !== 0) {
+        secondNum = +display.textContent;
+        notifs.textContent = operate(operator, firstNum, secondNum);
         }
         firstNum = 0;
         operator = "";
         secondNum = 0;
-      };
       break;
     case "clear":
       display.textContent = "";
@@ -137,6 +129,19 @@ calc.addEventListener("click", (event) => {
       break;
   }
 });
+
+function operate(operator, a, b) {
+  switch(operator) {
+    case "plus":
+      return add(a, b);
+    case "minus":
+      return subtract(a, b);
+    case "multi":
+      return multiply(a, b);
+    case "divide":
+      return divide(a, b);
+  }
+}
 
 function add(a, b) {
   return a + b;
@@ -151,5 +156,25 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
+  if(b === 0) {
+    return "No.";
+  }
   return a / b;
 }
+
+//if(firstNum === 0) {
+//  firstNum = +display.textContent;
+//}
+//if(firstNum !== 0 && operator === "") {
+//  operator = "plus";
+//  notifs.textContent = `adding to ${firstNum}`;
+//  display.textContent = "";
+//  break;
+//};
+//if(firstNum !== 0 && operator !== "") {
+//  secondNum = +display.textContent;
+//  notifs.textContent = `${firstNum} + ${secondNum} = ${add(firstNum, secondNum)}`;
+//  firstNum = add(firstNum, secondNum);
+//}
+//display.textContent = "";
+//break;
