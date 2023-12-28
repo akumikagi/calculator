@@ -45,6 +45,9 @@ calc.addEventListener("click", (event) => {
       display.textContent += ".";
       };
       break;
+    case "undo":
+      display.textContent = display.textContent.slice(0, -1);
+      break;
 
     case "plus":
       if(firstNum === 0) {
